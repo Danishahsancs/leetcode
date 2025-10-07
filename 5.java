@@ -1,31 +1,25 @@
 class Solution {
-    public int start=0;
-    public int end=0;
-
     public String longestPalindrome(String s) {
-        char[] ch = s.toCharArray();
-        palindrome(ch, 0);
-        return s.substring(start, end+1);
+
+        String ls = "";
+        for (int l = 0; l < s.length(); l++) {
+            for (int r = l; r < s.length(); r++) {
+                if (ispal(s, l, r) && (r - l) + 1 > ls.length()) {
+                    ls = s.substring(l, r + 1);
+                }
+            }
+        }
+
+        return ls;
     }
-    private void palindrome(char[] ch, int i){
-        int left=i;
-        int right=i;
-        int n=ch.length;
 
-        if(i>=n-1) return;
-
-        while(right<n-1 && ch[right]==ch[right+1]){
-            right++;
+    public boolean ispal(String s, int l, int r) {
+        while (l < r) {
+            if (s.charAt(l) != s.charAt(r))
+                return false;
+            l++;
+            r--;
         }
-        i=right;
-        while(left>0 && right<n-1 && ch[left-1]==ch[right+1]){
-            left--;
-            right++;
-        }
-        if((end-start)<(right-left)){
-            end=right;
-            start=left;
-        }
-        palindrome(ch,i+1);
+        return true;
     }
 }
